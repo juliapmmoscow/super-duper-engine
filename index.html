@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Простой калькулятор</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #calculator {
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    button {
+      width: 48px;
+      height: 48px;
+      margin: 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    button.operator {
+      background-color: #f5913e;
+      color: #fff;
+    }
+
+    button.equal {
+      background-color: #4caf50;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<div id="calculator">
+  <input id="display" type="text" readonly>
+  <br>
+  <button onclick="clearDisplay()">C</button>
+  <button onclick="backspace()">←</button>
+  <button class="operator" onclick="appendCharacter('/')">/</button>
+  <button class="operator" onclick="appendCharacter('*')">*</button>
+  <br>
+  <button onclick="appendCharacter('7')">7</button>
+  <button onclick="appendCharacter('8')">8</button>
+  <button onclick="appendCharacter('9')">9</button>
+  <button class="operator" onclick="appendCharacter('-')">-</button>
+  <br>
+  <button onclick="appendCharacter('4')">4</button>
+  <button onclick="appendCharacter('5')">5</button>
+  <button onclick="appendCharacter('6')">6</button>
+  <button class="operator" onclick="appendCharacter('+')">+</button>
+  <br>
+  <button onclick="appendCharacter('1')">1</button>
+  <button onclick="appendCharacter('2')">2</button>
+  <button onclick="appendCharacter('3')">3</button>
+  <button class="equal" onclick="calculate()">=</button>
+  <br>
+  <button onclick="appendCharacter('0')">0</button>
+  <button onclick="appendCharacter('.')">.</button>
+  <button onclick="toggleSign()">+/-</button>
+  <button class="operator" onclick="memory()">M</button>
+</div>
+
+<script>
+  let currentInput = '';
+  let memoryValue = null;
+
+  function updateDisplay() {
+    document.getElementById('display').value = currentInput;
+  }
+
+  function appendCharacter(char) {
+    currentInput += char;
+    updateDisplay();
+  }
+
+  function clearDisplay() {
+    currentInput = '';
+    updateDisplay();
+  }
+
+  function backspace() {
+    currentInput = currentInput.slice(0, -1);
+    updateDisplay();
+  }
+
+  function toggleSign() {
+    if (currentInput[0] === '-') {
+      currentInput = currentInput.slice(1);
+    } else {
+      currentInput = '-' + currentInput;
+    }
+    updateDisplay();
+  }
+
+  function calculate() {
+    try {
+      currentInput = eval(currentInput).toString();
+      updateDisplay();
+    } catch (error) {
+      currentInput = 'Error';
+      updateDisplay();
+    }
+  }
+
+  function memory() {
+    if (memoryValue === null) {
+      memoryValue = currentInput;
+    } else {
+      currentInput = memoryValue;
+      updateDisplay();
+    }
+  }
+</script>
+
+</body>
+</html>
